@@ -1,6 +1,5 @@
 ## builder
 FROM debian:10-slim as builder
-LABEL image="ripe-atlas-builder"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG GIT_URL=https://github.com/RIPE-NCC/ripe-atlas-software-probe.git
 
@@ -14,8 +13,6 @@ RUN ./ripe-atlas-software-probe/build-config/debian/bin/make-deb
 
 ## the actual image
 FROM debian:10-slim
-LABEL maintainer="dockerhub@public.swineson.me"
-LABEL image="ripe-atlas"
 ARG DEBIAN_FRONTEND=noninteractive
 
 COPY --from=builder /root/atlasswprobe-*.deb /tmp
@@ -46,4 +43,3 @@ VOLUME [ "/var/atlas-probe/etc", "/var/atlas-probe/status" ]
 
 ENTRYPOINT [ "entrypoint.sh" ]
 CMD [ "atlas" ]
-
